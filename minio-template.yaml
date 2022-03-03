@@ -35,7 +35,7 @@ data:
 
         <button (click)="uploadFile()" class="btn btn-sm btn-outline">
           <clr-icon shape="upload"></clr-icon>
-            上传文件
+            上传文件-new upload
         </button>
 kind: ConfigMap
 metadata:
