@@ -78,14 +78,7 @@ spec:
         persistentVolumeClaim:
           claimName: data-disk
       - name: config
-        emptyDir: {}
-      - configMap:
-          defaultMode: 420
-          items:
-            - key: test.txt
-              path: tmp/test.txt
-          name: config
-        name: configmap   
+        emptyDir: {}  
       containers:
       - name: minio
         image: harbor.ocplab.cn/minio/minio:latest
@@ -105,10 +98,7 @@ spec:
         - name: storage
           mountPath: "/storage"
         - name: config
-          mountPath: "/config"
-        - mountPath: /tmp/test.txt
-          name: configmap
-          subPath: tmp/test.txt                   
+          mountPath: "/config"                 
 ---
 apiVersion: v1
 kind: Service
