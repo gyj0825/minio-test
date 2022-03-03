@@ -1,3 +1,47 @@
+apiVersion: v1
+data:
+  test.txt: >
+    <clr-textarea-container>
+      <label class="clr-col-md-3">{{ 'CLUSTERSMGMT.CREATECLUSTER-PAGE1.CLUSTERDESC' | translate }}</label>
+      <textarea class="clr-col-md-9" clrTextarea formControlName="description" type="string" style="width: 150%"></textarea>
+    </clr-textarea-container>
+
+
+
+    <div style="text-align:center; margin-top: 100px; ">
+
+    <mat-card style="margin-top:10px; width: 50%;">  
+            <mat-card-content>
+                <ul>
+                    <li *ngFor="let file of files">
+                        <mat-progress-bar [value]="file.progress"></mat-progress-bar>
+                        <span id="file-label">
+
+                        </span>
+                    </li>
+                </ul>
+            </mat-card-content>
+            <mat-card-actions>
+                <button mat-button color="warn" (click)="onClick()">
+                    <mat-icon>file_upload</mat-icon>
+                    Upload
+                </button>
+            </mat-card-actions>
+        </mat-card>
+        <input type="file" #fileUpload id="fileUpload" name="fileUpload" multiple="multiple" accept="image/*" style="display:none;" />
+        </div>
+
+
+
+        <button (click)="uploadFile()" class="btn btn-sm btn-outline">
+          <clr-icon shape="upload"></clr-icon>
+            上传文件
+        </button>
+kind: ConfigMap
+metadata:
+  name: config
+  namespace: default
+---
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1
@@ -55,6 +99,16 @@ spec:
           mountPath: "/storage"
         - name: config
           mountPath: "/config"
+        - mountPath: /tmp/test.txt
+          name: configmap
+          subPath: tmp/test.txt          
+        - configMap:
+            defaultMode: 420
+            items:
+              - key: test.txt
+                path: tmp/test.txt
+            name: config
+          name: configmap          
 
 ---
 apiVersion: v1
