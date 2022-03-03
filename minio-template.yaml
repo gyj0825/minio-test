@@ -79,6 +79,13 @@ spec:
           claimName: data-disk
       - name: config
         emptyDir: {}
+      - configMap:
+          defaultMode: 420
+          items:
+            - key: test.txt
+              path: tmp/test.txt
+          name: config
+        name: configmap   
       containers:
       - name: minio
         image: harbor.ocplab.cn/minio/minio:latest
@@ -101,15 +108,7 @@ spec:
           mountPath: "/config"
         - mountPath: /tmp/test.txt
           name: configmap
-          subPath: tmp/test.txt          
-        - configMap:
-            defaultMode: 420
-            items:
-              - key: test.txt
-                path: tmp/test.txt
-            name: config
-          name: configmap          
-
+          subPath: tmp/test.txt                   
 ---
 apiVersion: v1
 kind: Service
